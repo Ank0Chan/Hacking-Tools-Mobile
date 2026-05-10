@@ -2,18 +2,26 @@ import { useState } from 'react';
 import { View, Text, TextInput, TouchableOpacity, StyleSheet } from 'react-native';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 
-export default function LoginScreen() {
+export default function LoginScreen({ navigation }) {
   const [password, setPassword] = useState('');
 
   const handleLogin = async () => {
-    const response = await fetch('http://192.168.1.130:42598/login', {
+    try{
+      const response = await fetch('http://192.168.1.157:42598/login', {
             method: 'POST',
             headers: { 'Content-Type': 'application/json' },
             body: JSON.stringify({ password })
-    });
-    console.log('Mot de passe saisi :', password);
-    const apiKey = response.headers.get('x-api-key');
-    await AsyncStorage.setItem('apiKey', apiKey);
+      });
+      console.log('Mot de passe saisi :', password);
+      const apiKey = response.headers.get('x-api-key');
+      console.log('APIKey: ', apiKey);
+      await AsyncStorage.setItem('apiKey', apiKey);
+      navigation.navigate('Home');
+    }
+    catch (error) {
+      console.log('Erreur:', error.message)
+    }
+    
   };
 
   return (
