@@ -1,8 +1,9 @@
-import { ScrollView, Text, TextInput, TouchableOpacity, StyleSheet } from 'react-native';
+import { ScrollView, View, Text, TextInput, TouchableOpacity, StyleSheet } from 'react-native';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import { useState } from 'react';
+import { theme } from '../theme';
 
-export default function NmapScreen() {
+export default function NmapScreen({ navigation }) {
   const [ip, setIp] = useState('');
   const [result, setResult] = useState('');
 
@@ -22,27 +23,34 @@ export default function NmapScreen() {
   };
 
   return (
-    <ScrollView contentContainerStyle={styles.container}>
-      <Text style={styles.title}>Nmap</Text>
-      <TextInput
-        style={styles.input}
-        placeholder="IP ou CIDR (ex: 192.168.1.0/24)"
-        value={ip}
-        onChangeText={setIp}
-      />
-      <TouchableOpacity style={styles.button} onPress={scan}>
-        <Text style={styles.buttonText}>Lancer le scan</Text>
-      </TouchableOpacity>
-      <Text style={styles.result}>{result}</Text>
-    </ScrollView>
+    <View style={{ flex: 1 }}>
+        <View style={{ width: '100%', alignItems: 'flex-start', backgroundColor: theme.background }}>
+            <TouchableOpacity onPress={() => navigation.openDrawer()}>
+                <Text style={{ fontSize: 28, padding: 15, marginTop:15 , color: theme.text }}>☰</Text>
+            </TouchableOpacity>
+        </View>
+        <ScrollView contentContainerStyle={styles.container} style={{ backgroundColor: theme.background }}>
+            <Text style={styles.title}>Nmap</Text>
+            <TextInput
+                style={styles.input}
+                placeholder="IP ou CIDR (ex: 192.168.1.0/24)"
+                value={ip}
+                onChangeText={setIp}
+            />
+            <TouchableOpacity style={styles.button} onPress={scan}>
+                <Text style={styles.buttonText}>Lancer le scan</Text>
+            </TouchableOpacity>
+            <Text style={styles.result}>{result}</Text>
+        </ScrollView>
+    </View>
   );
 }
 
 const styles = StyleSheet.create({
-  container: { justifyContent: 'center', alignItems: 'center', padding: 20 },
-  title: { fontSize: 24, fontWeight: 'bold', marginBottom: 40 },
-  input: { width: '100%', borderWidth: 1, borderColor: '#ccc', padding: 12, borderRadius: 8, marginBottom: 20 },
-  button: { backgroundColor: '#2E75B6', padding: 15, borderRadius: 8, width: '100%', alignItems: 'center' },
-  buttonText: { color: 'white', fontWeight: 'bold', fontSize: 16 },
-  result: { marginTop: 20, fontFamily: 'monospace', fontSize: 12 }
+  container: { justifyContent: 'center', alignItems: 'center', padding: 20, backgroundColor: theme.background },
+  title: { fontSize: 28, fontWeight: 'bold', color: theme.text, marginBottom: 8 },
+  input: { width: '100%', borderWidth: 1, borderColor: theme.border, backgroundColor: theme.surface, color: theme.text, padding: 12, borderRadius: 8, marginBottom: 20 },
+  button: { backgroundColor: theme.primary, padding: 15, borderRadius: 8, width: '100%', alignItems: 'center', borderWidth: 1, borderColor: theme.secondary },
+  buttonText: { color: theme.text, fontWeight: 'bold', fontSize: 16 },
+  result: { color: theme.text, marginTop: 20, fontFamily: 'monospace', fontSize: 12 }
 });

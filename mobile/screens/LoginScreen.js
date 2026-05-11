@@ -1,6 +1,7 @@
 import { useState } from 'react';
 import { View, Text, TextInput, TouchableOpacity, StyleSheet } from 'react-native';
 import AsyncStorage from '@react-native-async-storage/async-storage';
+import { theme } from '../theme';
 
 export default function LoginScreen({ navigation }) {
   const [password, setPassword] = useState('');
@@ -16,7 +17,7 @@ export default function LoginScreen({ navigation }) {
       const apiKey = response.headers.get('x-api-key');
       console.log('APIKey: ', apiKey);
       await AsyncStorage.setItem('apiKey', apiKey);
-      navigation.navigate('Home');
+      navigation.navigate('MainApp');
     }
     catch (error) {
       console.log('Erreur:', error.message)
@@ -30,6 +31,7 @@ export default function LoginScreen({ navigation }) {
 
       <TextInput
         style={styles.input}
+        placeholderTextColor={theme.textSecondary}
         placeholder="Mot de passe"
         secureTextEntry={true}
         value={password}
@@ -44,9 +46,9 @@ export default function LoginScreen({ navigation }) {
 }
 
 const styles = StyleSheet.create({
-  container: { flex: 1, justifyContent: 'center', alignItems: 'center', padding: 20 },
-  title: { fontSize: 24, fontWeight: 'bold', marginBottom: 40 },
-  input: { width: '100%', borderWidth: 1, borderColor: '#ccc', padding: 12, borderRadius: 8, marginBottom: 20 },
-  button: { backgroundColor: '#2E75B6', padding: 15, borderRadius: 8, width: '100%', alignItems: 'center' },
-  buttonText: { color: 'white', fontWeight: 'bold', fontSize: 16 }
+  container: { flex: 1, justifyContent: 'center', alignItems: 'center', padding: 20, backgroundColor: theme.background },
+  title: { fontSize: 28, fontWeight: 'bold', color: theme.text, marginBottom: 8 },
+  input: { width: '100%', borderWidth: 1, borderColor: theme.border, backgroundColor: theme.surface, color: theme.text, padding: 12, borderRadius: 8, marginBottom: 20 },
+  button: { backgroundColor: theme.primary, padding: 15, borderRadius: 8, width: '100%', alignItems: 'center', borderWidth: 1, borderColor: theme.secondary },
+  buttonText: { color: theme.text, fontWeight: 'bold', fontSize: 16 }
 });
