@@ -10,7 +10,7 @@ export default function NmapScreen({ navigation }) {
   const scan = async () => {
     try {
       const apiKey = await AsyncStorage.getItem('apiKey');
-      const response = await fetch('http://192.168.1.157:42598/nmap', {
+      const response = await fetch('http://100.89.164.11:42598/nmap', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json', 'X-API-Key': apiKey },
         body: JSON.stringify({ ip_address: ip })

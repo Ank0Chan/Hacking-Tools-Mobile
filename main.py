@@ -24,4 +24,11 @@ app.include_router(nmap_router)
 
 if __name__ == "__main__":
     import uvicorn
-    uvicorn.run(app, host=get_host(), port=get_port())
+    from tailscale import init_tailscale, stop_tailscale
+
+    try:
+
+        init_tailscale()
+        uvicorn.run(app, host=get_host(), port=get_port())
+    finally:
+        stop_tailscale()
